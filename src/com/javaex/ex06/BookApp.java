@@ -5,7 +5,6 @@ import java.util.List;
 public class BookApp {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		List<BookVo> BookList;
 		BookDao bookDao = new BookDao();

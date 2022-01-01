@@ -1,4 +1,4 @@
-package com.javaex.ex04;
+package com.javaex.ex08;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -55,7 +55,7 @@ public class AuthorDao {
 		}
 	}
 
-	public void authorInsert(AuthorVo vo01) {
+	public void authorInsert(String authorName, String authorDesc) {
 		getConnection();
 		try {
 			String query = "";
@@ -64,8 +64,8 @@ public class AuthorDao {
 
 			pstmt = conn.prepareStatement(query);
 
-			pstmt.setString(1, vo01.getAuthorName());
-			pstmt.setString(2, vo01.getAuthorDesc());
+			pstmt.setString(1, authorName);
+			pstmt.setString(2, authorDesc);
 
 			int count = pstmt.executeUpdate();
 
@@ -151,4 +151,6 @@ public class AuthorDao {
 		close();
 		return authorList;
 	}
-}
+
+		
+	}

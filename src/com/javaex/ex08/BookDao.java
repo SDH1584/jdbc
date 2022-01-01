@@ -1,4 +1,4 @@
-package com.javaex.ex07;
+package com.javaex.ex08;
 
 //공통변수 빼기
 import java.sql.Connection;
@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.javaex.ex07.BookVo;
 
 public class BookDao {
 
@@ -131,13 +133,20 @@ public class BookDao {
 		getConnection();
 		try {
 			String query = "";
-			query += " select  book_id,  ";
-			query += "         title, ";
-			query += "         pubs, ";
-			query += "         pub_date ";
-			query += " from    book ";
-			System.out.println(query);
-
+				query +=" select  bo.book_id, ";
+				query +=" 		  bo.title, "; 
+				query +="		  bo.pubs, ";  
+				query +="  		  to_char(bo.pub_date,'yyyy-mm-dd'), "; 
+				query +=" 		  au.author_id, ";
+				query +=" 		  au.author_name, "; 
+				query +="		  author_desc ";
+				query +=" from book bo, author au"; 
+				query +=" where   au.author_id = ";
+				query +=" 		  bo.author_id ";
+				query +=" and (title || pubs || au.author_name) ";
+				query +=" like '%문%' ";
+				query +=" order by book_id";
+			
 			pstmt = conn.prepareStatement(query);
 
 			rs = pstmt.executeQuery();
@@ -147,8 +156,9 @@ public class BookDao {
 				String title = rs.getString(2);
 				String pubs = rs.getString(3);
 				String pubDate = rs.getString(4);
-
-				BookVo bvo = new BookVo(bookId, title, pubs, pubDate);
+				String authorId=rs.getString(5);
+				String authorDesc=rs.getString(6);
+				BookVo bvo = new BookVo(bookId, title, pubs, pubDate, authorId , authorDesc);
 				bookList.add(bvo);
 
 			}
